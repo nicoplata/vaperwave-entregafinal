@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from "react";
 import ItemDetail from "../ItemDetail";
 import { useParams } from "react-router-dom";
-
-const items = [
-    { id: 1, image:"http://placekitten.com/100/100", categoria:'smokes',title:"Gatito 1" },
-    { id: 2, image:"http://placekitten.com/200/200", categoria:'pods',title:"Gatito 2" },
-    { id: 3, image:"http://placekitten.com/300/300", categoria:'resistencias',title:"Gatito 3" },
-];
+import { getFirestore, collection, getDocs, query, where } from "firebase/firestore";
 
 export const ItemDetailContainer = () => {
-    const [data, setData] = useState({});
+    const [info, setData] = useState({});
 
     const { detalleId } = useParams();
 
     useEffect(() => {
-        const getData = new Promise(resolve => {
-            setTimeout(() => {
-                resolve(items)
-            }, 1000)
-        })
-        if (detalleId) {
-            getData.then(res => setData(res.find(items => items.id === parseInt(detalleId))))
-        } else {
-            getData.then(res => setData(res))
-        }
-    }, [])
+        const db = getFirestore();
+        const itemsCollection = collection(db, 'items');
+        const q = query(itemsCollection, where('id', '==', detalleId))
+        getDocs(q).then((snapshotList) => {
+            const docs = snapshotList.docs.map((snapshot) => ({
+                id: snapshot.id,
+                ...snapshot.data(),
+            }));
+            const item = docs.find((item) => item.id === detalleId);
+            setData(item);
+        });        
+    }, [detalleId]);
 
+    console.log(info)
     return(
-        <ItemDetail data={data} />
+        <>
+            <ItemDetail data={info} />
+        </>
     );
 }
 
-export default ItemDetailContainer; 
+export default ItemDetailContainer;
