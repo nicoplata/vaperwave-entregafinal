@@ -1,6 +1,8 @@
+import './ContactForm.css'
 import React, { useState } from "react";
 import { addDoc, getFirestore, collection } from "firebase/firestore";
 import { useCartContext } from "../../context/CartContext";
+import ItemPurchased from '../ItemPurchased';
 
 const formBase = {
     name: '',
@@ -42,42 +44,57 @@ const ContactForm = () => {
     return (
         <div>
             {typeof id !== 'undefined' ? (
-                <p>Su compra se ha registrado con el id: {id}</p>
+                <>
+                <div className='contactForm'>
+                    <h3>Su compra se ha registrado con exito!</h3>
+                    <p>Número de compra id: {id}</p>
+
+                    <h3>detalle de compra:</h3>
+                    {
+                        cart.map(product => <ItemPurchased key={product.id} product={product} />)
+                    }
+                    <h3>total: ${totalPrice()}</h3>
+                </div>
+                    
+                    
+                </>
             ) : (
-                ''
+                <>
+                <form className='contactForm' onSubmit={submitHandler}>
+                    <div>
+                        <label htmlFor="name">Nombre</label>
+                        <input 
+                            name="name"
+                            id="name"
+                            value={form.name}
+                            onChange={inputChangeHandler}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            value={form.email}
+                            onChange={inputChangeHandler}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="phone">Telefono</label>
+                        <input
+                            name="telephone"
+                            id="telephone"
+                            value={form.telephone}
+                            onChange={inputChangeHandler}
+                        ></input>
+                    </div>
+                    <button>Enviar</button>
+                </form>
+                </>
             )}
-            <form onSubmit={submitHandler}>
-                <div>
-                    <label htmlFor="name">Nombre</label>
-                    <input 
-                        name="name"
-                        id="name"
-                        value={form.name}
-                        onChange={inputChangeHandler}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        value={form.email}
-                        onChange={inputChangeHandler}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="phone">Telefono</label>
-                    <input
-                        name="telephone"
-                        id="telephone"
-                        value={form.telephone}
-                        onChange={inputChangeHandler}
-                    ></input>
-                </div>
-                <button>Enviar</button>
-            </form>
         </div>
+            
     )
 }
 
