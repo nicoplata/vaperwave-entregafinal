@@ -8,6 +8,7 @@ import ItemListContainer from './components/ItemListContainer'
 import ItemDetailContainer from './components/ItemDetailContainer'
 import NavBar from './components/Navbar';
 import CartProvider from './context/CartContext';
+import ContactForm from './components/ContactForm';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path='/categoria/:categoriaId' element={<ItemListContainer />} ></Route>
             <Route path='/cart' element={<Cart />} ></Route>
             <Route path='/detalle/:detalleId' element={<ItemDetailContainer />} ></Route>
+            <Route path='/formulario' element={<ContactForm />} ></Route>
           </Routes>
         </CartProvider>
       </BrowserRouter>

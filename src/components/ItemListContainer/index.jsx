@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './ItemListContainer.css'
 import Title from '../Title';
 import ItemList from "../ItemList";
 import { useParams } from "react-router-dom";
@@ -36,8 +37,12 @@ export const ItemListContainer = () => {
     
     return (
         <>
-            <Title data={data} />
-            <ItemList data={data} />
+            <div className="title">
+                <Title data={data} />
+            </div>
+            <div className="container">
+                <ItemList data={data} />
+            </div>
         </>
     )
 }

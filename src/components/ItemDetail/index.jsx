@@ -8,8 +8,6 @@ export const ItemDetail = ({ data }) => {
     const [goToCart, setGoToCart] = useState(false);
     const { addProduct } = useCartContext();
 
-    console.log(data)
-
     const onAdd = (quantity) => {
         setGoToCart(true);
         addProduct(data, quantity)

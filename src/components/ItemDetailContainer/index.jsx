@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './ItemDetailContainer.css'
 import ItemDetail from "../ItemDetail";
 import { useParams } from "react-router-dom";
 import { getFirestore, collection, getDocs, query, where } from "firebase/firestore";
@@ -21,11 +22,12 @@ export const ItemDetailContainer = () => {
             setData(item);
         });        
     }, [detalleId]);
-
-    console.log(info)
+    
     return(
         <>
-            <ItemDetail data={info} />
+            <div className="container">
+                <ItemDetail data={info} />
+            </div> 
         </>
     );
 }
